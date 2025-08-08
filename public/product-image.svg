@@ -1,0 +1,40 @@
+<svg width="800" height="600" viewBox="0 0 800 600" xmlns="http://www.w3.org/2000/svg">
+  <!-- Background -->
+  <rect width="800" height="600" fill="#f8f9fa" />
+  
+  <!-- Headphones Body -->
+  <g transform="translate(400, 300) scale(1.5)">
+    <!-- Left Ear Cup -->
+    <ellipse cx="-100" cy="0" rx="50" ry="70" fill="#2d3748" stroke="#1a202c" stroke-width="4" />
+    <ellipse cx="-100" cy="0" rx="35" ry="55" fill="#4a5568" />
+    <ellipse cx="-100" cy="0" rx="25" ry="45" fill="#2d3748" />
+    
+    <!-- Right Ear Cup -->
+    <ellipse cx="100" cy="0" rx="50" ry="70" fill="#2d3748" stroke="#1a202c" stroke-width="4" />
+    <ellipse cx="100" cy="0" rx="35" ry="55" fill="#4a5568" />
+    <ellipse cx="100" cy="0" rx="25" ry="45" fill="#2d3748" />
+    
+    <!-- Headband -->
+    <path d="M -100 -10 C -80 -120, 80 -120, 100 -10" fill="none" stroke="#1a202c" stroke-width="12" stroke-linecap="round" />
+    <path d="M -100 -10 C -80 -110, 80 -110, 100 -10" fill="none" stroke="#2d3748" stroke-width="8" stroke-linecap="round" />
+    
+    <!-- Ear Cup Connectors -->
+    <path d="M -100 -10 C -100 -40, -100 -40, -100 -70" fill="none" stroke="#1a202c" stroke-width="8" stroke-linecap="round" />
+    <path d="M 100 -10 C 100 -40, 100 -40, 100 -70" fill="none" stroke="#1a202c" stroke-width="8" stroke-linecap="round" />
+    
+    <!-- Ear Cushions -->
+    <ellipse cx="-100" cy="0" rx="45" ry="65" fill="none" stroke="#a0aec0" stroke-width="10" />
+    <ellipse cx="100" cy="0" rx="45" ry="65" fill="none" stroke="#a0aec0" stroke-width="10" />
+    
+    <!-- Brand Logo -->
+    <circle cx="-100" cy="0" r="15" fill="#4299e1" />
+    <circle cx="100" cy="0" r="15" fill="#4299e1" />
+  </g>
+  
+  <!-- Product Name -->
+  <text x="400" y="500" font-family="Arial, sans-serif" font-size="32" font-weight="bold" text-anchor="middle" fill="#2d3748">Premium Wireless Headphones</text>
+  
+  <!-- Price Tag -->
+  <rect x="320" y="520" width="160" height="40" rx="20" fill="#4299e1" />
+  <text x="400" y="547" font-family="Arial, sans-serif" font-size="24" font-weight="bold" text-anchor="middle" fill="white">$299.99</text>
+</svg>
