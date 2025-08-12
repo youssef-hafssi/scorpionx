@@ -223,6 +223,8 @@ export default function ProductPage() {
                   )}
                 </div>
               </div>
+
+
               
               <div className="flex items-center space-x-3">
                 <span className="text-sm text-gray-700 font-medium">Quantity:</span>
@@ -255,7 +257,7 @@ export default function ProductPage() {
                 Add to Cart & Checkout
               </Button>
             </div>
-            
+
             <div className="border-t border-b py-3 mt-4">
               <div className="flex items-center">
                 <svg className="w-4 h-4 text-green-500 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
@@ -264,11 +266,258 @@ export default function ProductPage() {
                 <span className="text-sm">Free shipping</span>
               </div>
             </div>
+
+            {/* Product Information Sections */}
+            <div className="mt-6 space-y-3">
+              {/* Fast Shipping, Easy Returns, Built to Last */}
+              <div className="grid grid-cols-3 gap-4 p-4 bg-gray-50 rounded-lg">
+                <div className="text-center">
+                  <div className="flex justify-center mb-2">
+                    <svg className="w-6 h-6 text-gray-700" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+                    </svg>
+                  </div>
+                  <h3 className="text-xs font-medium text-gray-900 mb-1">Fast Shipping</h3>
+                  <p className="text-xs text-gray-600">Quick delivery</p>
+                </div>
+                <div className="text-center">
+                  <div className="flex justify-center mb-2">
+                    <svg className="w-6 h-6 text-gray-700" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15" />
+                    </svg>
+                  </div>
+                  <h3 className="text-xs font-medium text-gray-900 mb-1">Easy Returns</h3>
+                  <p className="text-xs text-gray-600">Hassle-free</p>
+                </div>
+                <div className="text-center">
+                  <div className="flex justify-center mb-2">
+                    <svg className="w-6 h-6 text-gray-700" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
+                    </svg>
+                  </div>
+                  <h3 className="text-xs font-medium text-gray-900 mb-1">Built to Last</h3>
+                  <p className="text-xs text-gray-600">Premium quality</p>
+                </div>
+              </div>
+
+              {/* Collapsible Sections */}
+              <div className="space-y-2">
+                {/* Product Info Section */}
+                <ProductInfoSection />
+
+                {/* Size Guide Section */}
+                <SizeGuideSection />
+
+                {/* Shipping & Returns Section */}
+                <ShippingReturnsSection />
+              </div>
+            </div>
           </div>
         </div>
       </div>
 
+    </div>
+  );
+}
 
+// Product Info Collapsible Section
+function ProductInfoSection() {
+  const [isOpen, setIsOpen] = useState(false);
+
+  return (
+    <div className="border border-gray-200 rounded-lg">
+      <button
+        onClick={() => setIsOpen(!isOpen)}
+        className="w-full px-6 py-4 text-left flex justify-between items-center hover:bg-gray-50 transition-colors"
+      >
+        <h3 className="font-medium text-gray-900 uppercase tracking-wide">PRODUCT INFO</h3>
+        <svg
+          className={`w-5 h-5 text-gray-500 transition-transform ${isOpen ? 'rotate-180' : ''}`}
+          fill="none"
+          stroke="currentColor"
+          viewBox="0 0 24 24"
+        >
+          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M19 9l-7 7-7-7" />
+        </svg>
+      </button>
+      {isOpen && (
+        <div className="px-6 pb-6 border-t border-gray-200">
+          <div className="pt-4 space-y-3 text-sm text-gray-600">
+            <p>Premium quality garment crafted with attention to detail and superior materials.</p>
+            <p>Designed for durability and comfort, maintaining its quality through regular wear and care.</p>
+            <p>Versatile design that combines style and functionality for everyday wear.</p>
+          </div>
+        </div>
+      )}
+    </div>
+  );
+}
+
+// Size Guide Collapsible Section
+function SizeGuideSection() {
+  const [isOpen, setIsOpen] = useState(false);
+
+  const sizeGuideImages = [
+    { size: 'Small', image: '/small.jpg' },
+    { size: 'Large', image: '/large.jpg' },
+    { size: 'XL', image: '/xlarge.jpg' },
+    { size: '2XL', image: '/2xl.jpg' }
+  ];
+
+  return (
+    <div className="border border-gray-200 rounded-lg">
+      <button
+        onClick={() => setIsOpen(!isOpen)}
+        className="w-full px-6 py-4 text-left flex justify-between items-center hover:bg-gray-50 transition-colors"
+      >
+        <h3 className="font-medium text-gray-900 uppercase tracking-wide">SIZE GUIDE</h3>
+        <svg
+          className={`w-5 h-5 text-gray-500 transition-transform ${isOpen ? 'rotate-180' : ''}`}
+          fill="none"
+          stroke="currentColor"
+          viewBox="0 0 24 24"
+        >
+          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M19 9l-7 7-7-7" />
+        </svg>
+      </button>
+      {isOpen && (
+        <div className="px-6 pb-6 border-t border-gray-200">
+          <div className="pt-4">
+            <p className="text-sm text-gray-600 mb-6">All measurements are in cm unless noted otherwise.</p>
+
+            {/* Size Guide Images */}
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+              {sizeGuideImages.map((item, index) => (
+                <div key={index} className="bg-white border border-gray-200 rounded-lg overflow-hidden">
+                  <div className="p-3 bg-gray-50 border-b">
+                    <h4 className="font-medium text-gray-900 text-center">{item.size}</h4>
+                  </div>
+                  <div className="p-4">
+                    <div className="relative aspect-square">
+                      <Image
+                        src={item.image}
+                        alt={`Size guide for ${item.size}`}
+                        fill
+                        className="object-contain"
+                        onError={(e) => {
+                          // Fallback if image doesn't exist
+                          const target = e.target as HTMLImageElement;
+                          target.style.display = 'none';
+                          target.parentElement!.innerHTML = `
+                            <div class="flex items-center justify-center h-full bg-gray-100 rounded">
+                              <div class="text-center">
+                                <svg class="w-12 h-12 text-gray-400 mx-auto mb-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z" />
+                                </svg>
+                                <p class="text-sm text-gray-500">${item.size} guide coming soon</p>
+                              </div>
+                            </div>
+                          `;
+                        }}
+                      />
+                    </div>
+                  </div>
+                </div>
+              ))}
+            </div>
+          </div>
+        </div>
+      )}
+    </div>
+  );
+}
+
+// Shipping & Returns Collapsible Section
+function ShippingReturnsSection() {
+  const [isOpen, setIsOpen] = useState(false);
+
+  return (
+    <div className="border border-gray-200 rounded-lg">
+      <button
+        onClick={() => setIsOpen(!isOpen)}
+        className="w-full px-6 py-4 text-left flex justify-between items-center hover:bg-gray-50 transition-colors"
+      >
+        <h3 className="font-medium text-gray-900 uppercase tracking-wide">SHIPPING & RETURNS</h3>
+        <svg
+          className={`w-5 h-5 text-gray-500 transition-transform ${isOpen ? 'rotate-180' : ''}`}
+          fill="none"
+          stroke="currentColor"
+          viewBox="0 0 24 24"
+        >
+          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M19 9l-7 7-7-7" />
+        </svg>
+      </button>
+      {isOpen && (
+        <div className="px-6 pb-6 border-t border-gray-200">
+          <div className="pt-4 space-y-4 text-sm text-gray-600">
+            {/* English Version */}
+            <div>
+              <h4 className="font-medium text-gray-900 mb-2">Pricing & Payment</h4>
+              <ul className="space-y-1">
+                <li>• The prices of the products include delivery</li>
+                <li>• Payment is upon receipt</li>
+              </ul>
+            </div>
+            <div>
+              <h4 className="font-medium text-gray-900 mb-2">Delivery Information</h4>
+              <ul className="space-y-1">
+                <li>• Delivery is done upon request within 24-72 hours</li>
+                <li>• If your order is delayed, please contact us as soon as possible</li>
+              </ul>
+            </div>
+            <div>
+              <h4 className="font-medium text-gray-900 mb-2">Size Confirmation</h4>
+              <ul className="space-y-1">
+                <li>• We do our best to confirm the sizes</li>
+                <li>• Please confirm the sizes with us to ensure your order arrives with the appropriate size</li>
+              </ul>
+            </div>
+            <div>
+              <h4 className="font-medium text-gray-900 mb-2">Returns & Exchanges</h4>
+              <ul className="space-y-1">
+                <li>• If you find any problem with your order regarding size or a problem with the product, you must contact us within 24 hours to change the order</li>
+                <li>• We do not bear responsibility for delays</li>
+                <li>• If the item is defective or does not fit properly due to incorrect sizing, you must pay the delivery cost to exchange the order</li>
+              </ul>
+            </div>
+
+            {/* Arabic Version */}
+            <div className="border-t border-gray-200 pt-4 mt-6">
+              <div className="text-right" dir="rtl">
+                <div className="mb-4">
+                  <h4 className="font-medium text-gray-900 mb-2">الأسعار والدفع</h4>
+                  <ul className="space-y-1">
+                    <li>• أثمنة المنتوجات شاملة التوصيل</li>
+                    <li>• الدفع عند الاستلام</li>
+                  </ul>
+                </div>
+                <div className="mb-4">
+                  <h4 className="font-medium text-gray-900 mb-2">معلومات التوصيل</h4>
+                  <ul className="space-y-1">
+                    <li>• يتم التوصيل بالطلبية خلال 24-72 ساعة</li>
+                    <li>• إذا تأخرت عليك الطلبية المرجو التواصل معنا في أقرب وقت</li>
+                  </ul>
+                </div>
+                <div className="mb-4">
+                  <h4 className="font-medium text-gray-900 mb-2">تأكيد المقاسات</h4>
+                  <ul className="space-y-1">
+                    <li>• نعمل أقصى قدر على تأكيد المقاسات</li>
+                    <li>• لذا المرجو تأكيد المقاسات معنا لضمان وصولكم بالمقاس المناسب</li>
+                  </ul>
+                </div>
+                <div>
+                  <h4 className="font-medium text-gray-900 mb-2">الإرجاع والاستبدال</h4>
+                  <ul className="space-y-1">
+                    <li>• إذا وجدت أي مشكلة في طلبتك خطأ في المقاس أو مشكلة في حالة المنتج يجب عليك التواصل معنا قبل 24 ساعة لتغيير الطلبية</li>
+                    <li>• لا نتحمل مسؤولية تأخركم</li>
+                    <li>• إذا كان المنتج معيب أو لم يناسبك لقياس خاطئ، يجب عليك دفع ثمن التوصيل لاستبدال الطلبية</li>
+                  </ul>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      )}
     </div>
   );
 }
