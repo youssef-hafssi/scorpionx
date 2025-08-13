@@ -22,6 +22,18 @@ export default function ProductPage() {
   const [stockLoading, setStockLoading] = useState(true);
   const [stockMessage, setStockMessage] = useState('In Stock. Ready to Ship.');
 
+  // Dynamic pricing function
+  const calculatePrice = (qty: number) => {
+    if (qty === 1) return 220;
+    if (qty === 2) return 400;
+    if (qty === 3) return 580;
+    if (qty >= 4) return qty * 220;
+    return 220;
+  };
+
+  const totalPrice = calculatePrice(quantity);
+  const pricePerItem = totalPrice / quantity;
+
   // Fetch stock data
   useEffect(() => {
     const fetchStock = async () => {
@@ -151,13 +163,37 @@ export default function ProductPage() {
           
           <div className="mt-4 space-y-1">
             <div className="flex items-baseline gap-2">
-              <span className="text-2xl font-bold text-gray-900">{product.price} DH</span>
-              {product.originalPrice && (
-                <span className="text-base text-gray-500 line-through">{product.originalPrice} DH</span>
+              <span className="text-2xl font-bold text-gray-900">{totalPrice} DH</span>
+              {quantity > 1 && (
+                <span className="text-base text-gray-600">({pricePerItem.toFixed(0)} DH each)</span>
               )}
             </div>
+            {quantity > 1 && quantity <= 3 && (
+              <div className="text-sm text-green-600 font-medium">
+                💰 Special bulk pricing applied!
+              </div>
+            )}
+
+            {/* Special Offer Table */}
+            <div className="mt-4 p-3 bg-blue-50 rounded-lg border border-blue-200">
+              <h4 className="text-sm font-medium text-blue-900 mb-2">💡 SPECIAL OFFER:</h4>
+              <div className="grid grid-cols-1 gap-2 text-xs">
+                <div className={`flex justify-between p-2 rounded ${quantity === 1 ? 'bg-blue-100 font-medium' : ''}`}>
+                  <span>1 item:</span>
+                  <span>220 DH</span>
+                </div>
+                <div className={`flex justify-between p-2 rounded ${quantity === 2 ? 'bg-blue-100 font-medium' : ''}`}>
+                  <span>2 items:</span>
+                  <span>400 DH</span>
+                </div>
+                <div className={`flex justify-between p-2 rounded ${quantity === 3 ? 'bg-blue-100 font-medium' : ''}`}>
+                  <span>3 items:</span>
+                  <span>580 DH</span>
+                </div>
+              </div>
+            </div>
           </div>
-          
+
           <div className="mt-6 space-y-6">
             <p className="text-gray-600">
               {product.description}
