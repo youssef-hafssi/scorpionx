@@ -93,7 +93,7 @@ export function Header() {
                 <img
                   src="/logo.png"
                   alt="Logo"
-                  className={`absolute top-0 left-0 h-20 w-auto object-contain brightness-0 transition-all duration-700 cubic-bezier(0.4, 0, 0.2, 1) ${
+                  className={`absolute top-0 left-0 h-20 object-contain brightness-0 transition-all duration-700 cubic-bezier(0.4, 0, 0.2, 1) ${
                     scrolled
                       ? 'opacity-0 scale-75 rotate-12 translate-y-2 blur-sm'
                       : 'opacity-100 scale-100 rotate-0 translate-y-0 blur-0 logo-float'
@@ -102,7 +102,9 @@ export function Header() {
                     transformOrigin: 'center center',
                     filter: scrolled ? 'brightness(0) blur(2px) drop-shadow(0 0 8px rgba(59, 130, 246, 0.3))' : 'brightness(0) blur(0px) drop-shadow(0 2px 4px rgba(0, 0, 0, 0.1))',
                     backfaceVisibility: 'hidden',
-                    WebkitBackfaceVisibility: 'hidden'
+                    WebkitBackfaceVisibility: 'hidden',
+                    width: 'auto',
+                    height: '80px'
                   }}
                 />
 
@@ -110,7 +112,7 @@ export function Header() {
                 <img
                   src="/singlelogo.png"
                   alt="Logo"
-                  className={`absolute top-0 left-0 h-20 w-auto object-contain brightness-0 transition-all duration-700 cubic-bezier(0.4, 0, 0.2, 1) ${
+                  className={`absolute top-0 left-0 h-20 object-contain brightness-0 transition-all duration-700 cubic-bezier(0.4, 0, 0.2, 1) ${
                     scrolled
                       ? 'opacity-100 scale-100 rotate-0 translate-y-0 blur-0 logo-float'
                       : 'opacity-0 scale-125 rotate-[-12deg] translate-y-[-8px] blur-sm'
@@ -119,7 +121,9 @@ export function Header() {
                     transformOrigin: 'center center',
                     filter: scrolled ? 'brightness(0) blur(0px) drop-shadow(0 2px 4px rgba(0, 0, 0, 0.1))' : 'brightness(0) blur(2px) drop-shadow(0 0 8px rgba(239, 68, 68, 0.3))',
                     backfaceVisibility: 'hidden',
-                    WebkitBackfaceVisibility: 'hidden'
+                    WebkitBackfaceVisibility: 'hidden',
+                    width: 'auto',
+                    height: '80px'
                   }}
                 />
 

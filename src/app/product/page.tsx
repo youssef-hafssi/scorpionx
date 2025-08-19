@@ -131,6 +131,7 @@ export default function ProductPage() {
               fill
               className="object-contain p-4"
               priority
+              sizes="(max-width: 768px) 100vw, 50vw"
             />
           </div>
           <div className="mt-4 grid grid-cols-4 gap-2">
@@ -149,6 +150,7 @@ export default function ProductPage() {
                   alt={product.name}
                   fill
                   className="object-cover p-2"
+                  sizes="(max-width: 768px) 25vw, 12vw"
                 />
               </div>
             </button>
@@ -170,6 +172,7 @@ export default function ProductPage() {
                     alt={`${product.name} - Additional Image ${index + 1}`}
                     fill
                     className="object-cover p-2"
+                    sizes="(max-width: 768px) 25vw, 12vw"
                   />
                 </div>
               </button>
@@ -195,6 +198,7 @@ export default function ProductPage() {
                       alt={`${product.name} - Additional Image ${index + 4}`}
                       fill
                       className="object-cover p-2"
+                      sizes="(max-width: 768px) 25vw, 12vw"
                     />
                   </div>
                 </button>

@@ -337,8 +337,9 @@ export function OrderProvider({ children }: { children: ReactNode }) {
         throw new Error(errorMessage);
       }
 
-      // Generate order number based on existing orders count
-      const orderNumber = `ORD-${String(orders.length + 1).padStart(6, '0')}`;
+      // Generate unique order number based on timestamp
+      const timestamp = Date.now();
+      const orderNumber = `ORD-${timestamp.toString().slice(-8)}`;
 
       // Insert order into database
       const { data: orderData, error: orderError } = await supabase

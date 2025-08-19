@@ -40,10 +40,10 @@ export const productFeatures = [
 export const reviews = [
   {
     id: '1',
-    name: 'Youssef El Amrani',
+    name: 'A***d',
     rating: 5,
     date: '2023-11-15',
-    comment: 'These cargo pants are exactly what I was looking for! The vintage wash looks great and the fit is perfect. Love all the pockets for everyday carry.'
+    comment: 'sarha 5oya la qualité vrai zwina bezaf ou hta taman monasib Merci bezaf 3la hosen ta3amol ou Lahe yewefe9k'
   },
   {
     id: '2',
@@ -54,10 +54,10 @@ export const reviews = [
   },
   {
     id: '3',
-    name: 'Omar Benali',
+    name: 'M***d',
     rating: 5,
     date: '2023-12-03',
-    comment: 'The attention to detail on these pants is impressive. The vintage wash gives them character and the cargo pockets are actually functional.'
+    comment: 'Commande bien reçu qualité top dial top la taille hya hadik Scorpionx l2assl wl ba9i ta9lid'
   },
   {
     id: '4',

@@ -80,13 +80,13 @@ export default function Home() {
                   </svg>
                 ))}
               </div>
-              <p className="text-gray-600 mb-4">"ScorpionX has the best quality clothing I've ever owned. The fabric is incredible and the fit is perfect for my daily style."</p>
+              <p className="text-gray-600 mb-4">"sarha 5oya la qualité vrai zwina bezaf ou hta taman monasib Merci bezaf 3la hosen ta3amol ou Lahe yewefe9k"</p>
               <div className="flex items-center">
                 <div className="w-10 h-10 bg-gray-200 rounded-full flex items-center justify-center mr-3">
-                  <span className="text-gray-600 font-semibold">YE</span>
+                  <span className="text-gray-600 font-semibold">A*</span>
                 </div>
                 <div>
-                  <p className="font-semibold">Youssef El Amrani</p>
+                  <p className="font-semibold">A***d</p>
                   <p className="text-sm text-gray-500">Verified Customer</p>
                 </div>
               </div>
@@ -100,13 +100,13 @@ export default function Home() {
                   </svg>
                 ))}
               </div>
-              <p className="text-gray-600 mb-4">"The quality exceeded my expectations. Premium materials and stylish designs. Worth every penny."</p>
+              <p className="text-gray-600 mb-4">"Commande bien reçu qualité top dial top la taille hya hadik Scorpionx l2assl wl ba9i ta9lid"</p>
               <div className="flex items-center">
                 <div className="w-10 h-10 bg-gray-200 rounded-full flex items-center justify-center mr-3">
-                  <span className="text-gray-600 font-semibold">OB</span>
+                  <span className="text-gray-600 font-semibold">M*</span>
                 </div>
                 <div>
-                  <p className="font-semibold">Omar Benali</p>
+                  <p className="font-semibold">M***d</p>
                   <p className="text-sm text-gray-500">Verified Customer</p>
                 </div>
               </div>
