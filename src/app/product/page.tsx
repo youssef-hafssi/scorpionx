@@ -6,6 +6,7 @@ import { useRouter } from 'next/navigation';
 import { Button } from '@/components/ui/button';
 import { useCart } from '@/lib/cart-context';
 import { product } from '@/lib/product-data';
+import { calculatePrice, getPricePerItem } from '@/lib/pricing';
 
 
 interface StockInfo {
@@ -21,18 +22,18 @@ export default function ProductPage() {
   const [stockData, setStockData] = useState<Record<string, StockInfo>>({});
   const [stockLoading, setStockLoading] = useState(true);
   const [stockMessage, setStockMessage] = useState('In Stock. Ready to Ship.');
+  const [selectedMainImage, setSelectedMainImage] = useState(product.image);
 
-  // Dynamic pricing function
-  const calculatePrice = (qty: number) => {
-    if (qty === 1) return 220;
-    if (qty === 2) return 400;
-    if (qty === 3) return 580;
-    if (qty >= 4) return qty * 220;
-    return 220;
-  };
+  // Additional product images for gallery
+  const additionalImages = [
+    '/pc1.jpg',
+    '/pc2.jpg',
+    '/pc3.jpg',
+    '/pc4.jpg'
+  ];
 
   const totalPrice = calculatePrice(quantity);
-  const pricePerItem = totalPrice / quantity;
+  const pricePerItem = getPricePerItem(quantity);
 
   // Fetch stock data
   useEffect(() => {
@@ -125,7 +126,7 @@ export default function ProductPage() {
         <div className="bg-white p-4 rounded-lg shadow-sm">
           <div className="relative aspect-square overflow-hidden rounded-lg border">
             <Image
-              src={product.image}
+              src={selectedMainImage}
               alt={product.name}
               fill
               className="object-contain p-4"
@@ -133,7 +134,15 @@ export default function ProductPage() {
             />
           </div>
           <div className="mt-4 grid grid-cols-4 gap-2">
-            <button className="border-2 border-primary rounded-md overflow-hidden">
+            {/* Original product image thumbnail */}
+            <button
+              onClick={() => setSelectedMainImage(product.image)}
+              className={`border-2 rounded-md overflow-hidden transition-colors ${
+                selectedMainImage === product.image
+                  ? 'border-primary'
+                  : 'border-gray-200 hover:border-gray-300'
+              }`}
+            >
               <div className="aspect-square relative">
                 <Image
                   src={product.image}
@@ -143,7 +152,55 @@ export default function ProductPage() {
                 />
               </div>
             </button>
+
+            {/* Additional images */}
+            {additionalImages.slice(0, 3).map((image, index) => (
+              <button
+                key={index}
+                onClick={() => setSelectedMainImage(image)}
+                className={`border-2 rounded-md overflow-hidden transition-colors ${
+                  selectedMainImage === image
+                    ? 'border-primary'
+                    : 'border-gray-200 hover:border-gray-300'
+                }`}
+              >
+                <div className="aspect-square relative">
+                  <Image
+                    src={image}
+                    alt={`${product.name} - Additional Image ${index + 1}`}
+                    fill
+                    className="object-cover p-2"
+                  />
+                </div>
+              </button>
+            ))}
           </div>
+
+          {/* Additional images row if more than 3 */}
+          {additionalImages.length > 3 && (
+            <div className="mt-2 grid grid-cols-4 gap-2">
+              {additionalImages.slice(3).map((image, index) => (
+                <button
+                  key={index + 3}
+                  onClick={() => setSelectedMainImage(image)}
+                  className={`border-2 rounded-md overflow-hidden transition-colors ${
+                    selectedMainImage === image
+                      ? 'border-primary'
+                      : 'border-gray-200 hover:border-gray-300'
+                  }`}
+                >
+                  <div className="aspect-square relative">
+                    <Image
+                      src={image}
+                      alt={`${product.name} - Additional Image ${index + 4}`}
+                      fill
+                      className="object-cover p-2"
+                    />
+                  </div>
+                </button>
+              ))}
+            </div>
+          )}
         </div>
 
         {/* Product Info */}
@@ -168,7 +225,7 @@ export default function ProductPage() {
                 <span className="text-base text-gray-600">({pricePerItem.toFixed(0)} DH each)</span>
               )}
             </div>
-            {quantity > 1 && quantity <= 3 && (
+            {quantity > 1 && (
               <div className="text-sm text-green-600 font-medium">
                 💰 Special bulk pricing applied!
               </div>
@@ -195,10 +252,6 @@ export default function ProductPage() {
           </div>
 
           <div className="mt-6 space-y-6">
-            <p className="text-gray-600">
-              {product.description}
-            </p>
-            
             <div className="space-y-4">
               <div>
                 <label className="block text-sm font-medium text-gray-700 mb-3">Size</label>
@@ -378,10 +431,8 @@ function ProductInfoSection() {
       </button>
       {isOpen && (
         <div className="px-6 pb-6 border-t border-gray-200">
-          <div className="pt-4 space-y-3 text-sm text-gray-600">
-            <p>Premium quality garment crafted with attention to detail and superior materials.</p>
-            <p>Designed for durability and comfort, maintaining its quality through regular wear and care.</p>
-            <p>Versatile design that combines style and functionality for everyday wear.</p>
+          <div className="pt-4 text-sm text-gray-600">
+            <p className="leading-relaxed">{product.description}</p>
           </div>
         </div>
       )}
@@ -486,69 +537,69 @@ function ShippingReturnsSection() {
       {isOpen && (
         <div className="px-6 pb-6 border-t border-gray-200">
           <div className="pt-4 space-y-4 text-sm text-gray-600">
-            {/* English Version */}
-            <div>
-              <h4 className="font-medium text-gray-900 mb-2">Pricing & Payment</h4>
-              <ul className="space-y-1">
-                <li>• The prices of the products include delivery</li>
-                <li>• Payment is upon receipt</li>
-              </ul>
-            </div>
-            <div>
-              <h4 className="font-medium text-gray-900 mb-2">Delivery Information</h4>
-              <ul className="space-y-1">
-                <li>• Delivery is done upon request within 24-72 hours</li>
-                <li>• If your order is delayed, please contact us as soon as possible</li>
-              </ul>
-            </div>
-            <div>
-              <h4 className="font-medium text-gray-900 mb-2">Size Confirmation</h4>
-              <ul className="space-y-1">
-                <li>• We do our best to confirm the sizes</li>
-                <li>• Please confirm the sizes with us to ensure your order arrives with the appropriate size</li>
-              </ul>
-            </div>
-            <div>
-              <h4 className="font-medium text-gray-900 mb-2">Returns & Exchanges</h4>
-              <ul className="space-y-1">
-                <li>• If you find any problem with your order regarding size or a problem with the product, you must contact us within 24 hours to change the order</li>
-                <li>• We do not bear responsibility for delays</li>
-                <li>• If the item is defective or does not fit properly due to incorrect sizing, you must pay the delivery cost to exchange the order</li>
-              </ul>
+            {/* Arabic Version First */}
+            <div className="text-right" dir="rtl">
+              <div className="mb-4">
+                <h4 className="font-medium text-gray-900 mb-2">الأسعار والدفع</h4>
+                <ul className="space-y-1">
+                  <li>• أثمنة المنتوجات شاملة التوصيل</li>
+                  <li>• الدفع عند الاستلام</li>
+                </ul>
+              </div>
+              <div className="mb-4">
+                <h4 className="font-medium text-gray-900 mb-2">معلومات التوصيل</h4>
+                <ul className="space-y-1">
+                  <li>• يتم التوصيل بالطلبية خلال 24-72 ساعة</li>
+                  <li>• إذا تأخرت عليك الطلبية المرجو التواصل معنا في أقرب وقت</li>
+                </ul>
+              </div>
+              <div className="mb-4">
+                <h4 className="font-medium text-gray-900 mb-2">تأكيد المقاسات</h4>
+                <ul className="space-y-1">
+                  <li>• نعمل أقصى قدر على تأكيد المقاسات</li>
+                  <li>• لذا المرجو تأكيد المقاسات معنا لضمان وصولكم بالمقاس المناسب</li>
+                </ul>
+              </div>
+              <div>
+                <h4 className="font-medium text-gray-900 mb-2">الإرجاع والاستبدال</h4>
+                <ul className="space-y-1">
+                  <li>• إذا وجدت أي مشكلة في طلبتك خطأ في المقاس أو مشكلة في حالة المنتج يجب عليك التواصل معنا قبل 24 ساعة لتغيير الطلبية</li>
+                  <li>• لا نتحمل مسؤولية تأخركم</li>
+                  <li>• إذا كان المنتج معيب أو لم يناسبك لقياس خاطئ، يجب عليك دفع ثمن التوصيل لاستبدال الطلبية</li>
+                </ul>
+              </div>
             </div>
 
-            {/* Arabic Version */}
+            {/* English Version */}
             <div className="border-t border-gray-200 pt-4 mt-6">
-              <div className="text-right" dir="rtl">
-                <div className="mb-4">
-                  <h4 className="font-medium text-gray-900 mb-2">الأسعار والدفع</h4>
-                  <ul className="space-y-1">
-                    <li>• أثمنة المنتوجات شاملة التوصيل</li>
-                    <li>• الدفع عند الاستلام</li>
-                  </ul>
-                </div>
-                <div className="mb-4">
-                  <h4 className="font-medium text-gray-900 mb-2">معلومات التوصيل</h4>
-                  <ul className="space-y-1">
-                    <li>• يتم التوصيل بالطلبية خلال 24-72 ساعة</li>
-                    <li>• إذا تأخرت عليك الطلبية المرجو التواصل معنا في أقرب وقت</li>
-                  </ul>
-                </div>
-                <div className="mb-4">
-                  <h4 className="font-medium text-gray-900 mb-2">تأكيد المقاسات</h4>
-                  <ul className="space-y-1">
-                    <li>• نعمل أقصى قدر على تأكيد المقاسات</li>
-                    <li>• لذا المرجو تأكيد المقاسات معنا لضمان وصولكم بالمقاس المناسب</li>
-                  </ul>
-                </div>
-                <div>
-                  <h4 className="font-medium text-gray-900 mb-2">الإرجاع والاستبدال</h4>
-                  <ul className="space-y-1">
-                    <li>• إذا وجدت أي مشكلة في طلبتك خطأ في المقاس أو مشكلة في حالة المنتج يجب عليك التواصل معنا قبل 24 ساعة لتغيير الطلبية</li>
-                    <li>• لا نتحمل مسؤولية تأخركم</li>
-                    <li>• إذا كان المنتج معيب أو لم يناسبك لقياس خاطئ، يجب عليك دفع ثمن التوصيل لاستبدال الطلبية</li>
-                  </ul>
-                </div>
+              <div>
+                <h4 className="font-medium text-gray-900 mb-2">Pricing & Payment</h4>
+                <ul className="space-y-1">
+                  <li>• The prices of the products include delivery</li>
+                  <li>• Payment is upon receipt</li>
+                </ul>
+              </div>
+              <div>
+                <h4 className="font-medium text-gray-900 mb-2">Delivery Information</h4>
+                <ul className="space-y-1">
+                  <li>• Delivery is done upon request within 24-72 hours</li>
+                  <li>• If your order is delayed, please contact us as soon as possible</li>
+                </ul>
+              </div>
+              <div>
+                <h4 className="font-medium text-gray-900 mb-2">Size Confirmation</h4>
+                <ul className="space-y-1">
+                  <li>• We do our best to confirm the sizes</li>
+                  <li>• Please confirm the sizes with us to ensure your order arrives with the appropriate size</li>
+                </ul>
+              </div>
+              <div>
+                <h4 className="font-medium text-gray-900 mb-2">Returns & Exchanges</h4>
+                <ul className="space-y-1">
+                  <li>• If you find any problem with your order regarding size or a problem with the product, you must contact us within 24 hours to change the order</li>
+                  <li>• We do not bear responsibility for delays</li>
+                  <li>• If the item is defective or does not fit properly due to incorrect sizing, you must pay the delivery cost to exchange the order</li>
+                </ul>
               </div>
             </div>
           </div>

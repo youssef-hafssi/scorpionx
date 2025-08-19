@@ -9,6 +9,7 @@ import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { useCart } from '@/lib/cart-context';
 import { useOrders } from '@/lib/order-context';
+import { calculatePrice } from '@/lib/pricing';
 
 export default function CheckoutPage() {
   const router = useRouter();
@@ -22,9 +23,10 @@ export default function CheckoutPage() {
     deliveryAddress: '',
     email: ''
   });
-  
-  // Calculate cart totals
-  const subtotal = items.reduce((total, item) => total + (item.product.price * item.quantity), 0);
+
+  // Calculate cart totals using dynamic pricing
+  const totalQuantity = items.reduce((total, item) => total + item.quantity, 0);
+  const subtotal = calculatePrice(totalQuantity);
   const shipping = 0; // Fixed at 0DH
   const total = subtotal + shipping;
   
@@ -154,16 +156,38 @@ export default function CheckoutPage() {
                 {items.map((item) => (
                   <div key={item.product.id} className="flex justify-between items-center py-1">
                     <span className="font-medium text-sm">{item.product.name} (x{item.quantity})</span>
-                    <span className="text-gray-900 text-sm">{(item.product.price * item.quantity)} DH</span>
+                    <span className="text-gray-600 text-xs">Size: {item.product.selectedSize}</span>
                   </div>
                 ))}
               </div>
 
+              {/* Pricing breakdown with bulk discount info */}
               <div className="border-t mt-4 pt-4 space-y-3">
                 <div className="flex justify-between">
-                  <span className="text-gray-600 text-sm">Subtotal</span>
+                  <span className="text-gray-600 text-sm">Total Items</span>
+                  <span className="font-medium text-sm">{totalQuantity}</span>
+                </div>
+
+                {totalQuantity > 1 && (
+                  <div className="bg-green-50 p-2 rounded text-xs text-green-700">
+                    💰 Bulk pricing applied! You're saving money with this quantity.
+                  </div>
+                )}
+
+                <div className="flex justify-between">
+                  <span className="text-gray-600 text-sm">
+                    Subtotal ({totalQuantity} item{totalQuantity > 1 ? 's' : ''})
+                  </span>
                   <span className="font-medium text-sm">{subtotal} DH</span>
                 </div>
+
+                {totalQuantity > 1 && (
+                  <div className="flex justify-between text-xs text-gray-500">
+                    <span>Price per item</span>
+                    <span>{(subtotal / totalQuantity).toFixed(0)} DH each</span>
+                  </div>
+                )}
+
                 <div className="flex justify-between">
                   <span className="text-gray-600 text-sm">Shipping</span>
                   <span className="font-medium text-sm">0 DH</span>

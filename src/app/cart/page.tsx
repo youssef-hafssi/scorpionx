@@ -7,17 +7,19 @@ import { Button } from '@/components/ui/button';
 import { Card, CardContent } from '@/components/ui/card';
 import { Input } from '@/components/ui/input';
 import { useCart } from '@/lib/cart-context';
+import { calculatePrice } from '@/lib/pricing';
 
 export default function CartPage() {
-  const { items, updateItemQuantity, removeItem, clearCart } = useCart();
+  const { items, updateQuantity, removeItem, clearCart } = useCart();
   const [promoCode, setPromoCode] = useState('');
   const [promoApplied, setPromoApplied] = useState(false);
-  
-  // Calculate cart totals
-  const subtotal = items.reduce((total, item) => total + (item.product.price * item.quantity), 0);
+
+  // Calculate cart totals using dynamic pricing
+  const totalQuantity = items.reduce((total, item) => total + item.quantity, 0);
+  const subtotal = calculatePrice(totalQuantity);
   const discount = promoApplied ? subtotal * 0.1 : 0; // 10% discount if promo applied
-  const shipping = subtotal > 50 ? 0 : 5.99;
-  const tax = (subtotal - discount) * 0.07; // 7% tax
+  const shipping = 0; // Fixed at 0DH to match checkout
+  const tax = 0; // Remove tax to match checkout
   const total = subtotal - discount + shipping + tax;
   
   const handlePromoCode = () => {
@@ -30,7 +32,7 @@ export default function CartPage() {
   
   const handleQuantityChange = (id: string, newQuantity: number) => {
     if (newQuantity < 1) return;
-    updateItemQuantity(id, newQuantity);
+    updateQuantity(id, newQuantity);
   };
   
   if (items.length === 0) {
@@ -69,10 +71,20 @@ export default function CartPage() {
                     <div className="flex-1 sm:ml-6">
                       <div className="flex justify-between">
                         <h3 className="font-semibold text-lg">{item.product.name}</h3>
-                        <p className="font-semibold">{(item.product.price * item.quantity)} DH</p>
+                        <p className="font-semibold">
+                          {totalQuantity > 1 ?
+                            `${(subtotal / totalQuantity * item.quantity).toFixed(0)} DH` :
+                            `${220 * item.quantity} DH`
+                          }
+                        </p>
                       </div>
 
-                      <p className="text-gray-500 text-sm mt-1">{item.product.price} DH each</p>
+                      <p className="text-gray-500 text-sm mt-1">
+                        {totalQuantity > 1 ?
+                          `${(subtotal / totalQuantity).toFixed(0)} DH each (bulk pricing)` :
+                          '220 DH each'
+                        }
+                      </p>
                       
                       <div className="flex items-center justify-between mt-4">
                         <div className="flex items-center border rounded-md">
@@ -127,9 +139,22 @@ export default function CartPage() {
               
               <div className="space-y-4">
                 <div className="flex justify-between">
-                  <span>Subtotal</span>
+                  <span>Subtotal ({totalQuantity} item{totalQuantity > 1 ? 's' : ''})</span>
                   <span>{subtotal} DH</span>
                 </div>
+
+                {totalQuantity > 1 && (
+                  <div className="bg-green-50 p-2 rounded text-xs text-green-700">
+                    💰 Bulk pricing applied! You're saving money with this quantity.
+                  </div>
+                )}
+
+                {totalQuantity > 1 && (
+                  <div className="flex justify-between text-xs text-gray-500">
+                    <span>Price per item</span>
+                    <span>{(subtotal / totalQuantity).toFixed(0)} DH each</span>
+                  </div>
+                )}
 
                 {promoApplied && (
                   <div className="flex justify-between text-green-600">
@@ -141,11 +166,6 @@ export default function CartPage() {
                 <div className="flex justify-between">
                   <span>Shipping</span>
                   <span>{shipping === 0 ? 'Free' : `${shipping.toFixed(2)} DH`}</span>
-                </div>
-
-                <div className="flex justify-between">
-                  <span>Tax (7%)</span>
-                  <span>{tax.toFixed(2)} DH</span>
                 </div>
 
                 <div className="border-t pt-4 mt-4">
