@@ -199,26 +199,6 @@ export default function CartPage() {
                     Proceed to Checkout
                   </Button>
                 </Link>
-                
-                <div className="mt-4 text-center text-sm text-gray-500">
-                  <p>Secure checkout powered by Stripe</p>
-                  <div className="flex justify-center space-x-2 mt-2">
-                    <svg className="h-6 w-10" viewBox="0 0 32 20" fill="none" xmlns="http://www.w3.org/2000/svg">
-                      <rect width="32" height="20" rx="2" fill="#E6E6E6"/>
-                      <path d="M21 10C21 7.2 18.8 5 16 5C13.2 5 11 7.2 11 10C11 12.8 13.2 15 16 15C18.8 15 21 12.8 21 10Z" fill="#EB001B"/>
-                      <path d="M21 10C21 12.8 18.8 15 16 15C13.2 15 11 12.8 11 10C11 7.2 13.2 5 16 5C18.8 5 21 7.2 21 10Z" fill="#F79E1B"/>
-                    </svg>
-                    <svg className="h-6 w-10" viewBox="0 0 32 20" fill="none" xmlns="http://www.w3.org/2000/svg">
-                      <rect width="32" height="20" rx="2" fill="#E6E6E6"/>
-                      <path d="M12 7H20V13H12V7Z" fill="#1434CB"/>
-                    </svg>
-                    <svg className="h-6 w-10" viewBox="0 0 32 20" fill="none" xmlns="http://www.w3.org/2000/svg">
-                      <rect width="32" height="20" rx="2" fill="#E6E6E6"/>
-                      <path d="M19.5 10C19.5 12.5 17.5 14.5 15 14.5C12.5 14.5 10.5 12.5 10.5 10C10.5 7.5 12.5 5.5 15 5.5C17.5 5.5 19.5 7.5 19.5 10Z" fill="#FFB600"/>
-                      <path d="M21.5 10C21.5 12.5 19.5 14.5 17 14.5C14.5 14.5 12.5 12.5 12.5 10C12.5 7.5 14.5 5.5 17 5.5C19.5 5.5 21.5 7.5 21.5 10Z" fill="#F7981D"/>
-                    </svg>
-                  </div>
-                </div>
               </div>
             </CardContent>
           </Card>
