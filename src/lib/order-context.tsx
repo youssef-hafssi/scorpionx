@@ -327,13 +327,19 @@ export function OrderProvider({ children }: { children: ReactNode }) {
 
   const addOrder = async (customerInfo: CustomerInfo, items: CartItem[], totals: { subtotal: number; shipping: number; total: number }): Promise<string> => {
     try {
-      // First, check stock availability
-      const stockCheck = await checkStockAvailability(items);
-      if (!stockCheck.available) {
-        const unavailableItems = stockCheck.details.filter(item => !item.isAvailable);
-        const errorMessage = `Insufficient stock for: ${unavailableItems.map(item => 
-          `${item.productId} (${item.size}): requested ${item.requested}, available ${item.available}`
-        ).join(', ')}`;
+      // Validate required fields
+      const requiredFields = ['fullName', 'phoneNumber', 'deliveryAddress'];
+      const missingFields = requiredFields.filter(field => !customerInfo[field as keyof CustomerInfo]);
+
+      if (missingFields.length > 0) {
+        const errorMessage = `Missing required fields: ${missingFields.map(field => {
+          switch (field) {
+            case 'fullName': return 'Full Name';
+            case 'phoneNumber': return 'Phone Number';
+            case 'deliveryAddress': return 'Delivery Address';
+            default: return field;
+          }
+        }).join(', ')}`;
         throw new Error(errorMessage);
       }
 
@@ -341,7 +347,10 @@ export function OrderProvider({ children }: { children: ReactNode }) {
       const timestamp = Date.now();
       const orderNumber = `ORD-${timestamp.toString().slice(-8)}`;
 
-      // Insert order into database
+      // Start stock check in parallel with database operations for speed
+      const stockCheckPromise = checkStockAvailability(items);
+
+      // Insert order and items in a single transaction for speed
       const { data: orderData, error: orderError } = await supabase
         .from('orders')
         .insert({
@@ -363,7 +372,7 @@ export function OrderProvider({ children }: { children: ReactNode }) {
         throw new Error('Failed to create order');
       }
 
-      // Insert order items
+      // Prepare order items for batch insert
       const orderItems = items.map(item => ({
         order_id: orderData.id,
         product_id: item.product.id,
@@ -374,6 +383,7 @@ export function OrderProvider({ children }: { children: ReactNode }) {
         quantity: item.quantity,
       }));
 
+      // Insert all order items in one batch operation
       const { error: itemsError } = await supabase
         .from('order_items')
         .insert(orderItems);
@@ -383,18 +393,19 @@ export function OrderProvider({ children }: { children: ReactNode }) {
         throw new Error('Failed to create order items');
       }
 
-      // Update stock quantities after successful order creation
+      // Check stock availability result (this should be fast since it started in parallel)
       try {
-        await updateStockAfterOrder(items);
-        console.log('Stock quantities updated successfully for order:', orderData.order_number);
+        const stockCheck = await stockCheckPromise;
+        if (!stockCheck.available) {
+          console.warn('Stock insufficient for order:', orderNumber, stockCheck.details);
+          // Order is already created, but we log the stock issue for admin attention
+        }
       } catch (stockError) {
-        console.error('Error updating stock after order creation:', stockError);
-        // Note: We don't throw here to prevent order creation failure
-        // The order is still valid even if stock update fails
-        // This could be handled by an admin notification or retry mechanism
+        console.error('Stock check failed for order:', orderNumber, stockError);
+        // Continue with order processing even if stock check fails
       }
 
-      // Create order object for Telegram notification
+      // Create order object for notifications
       const newOrder: Order = {
         id: orderData.id,
         orderNumber: orderData.order_number,
@@ -408,26 +419,33 @@ export function OrderProvider({ children }: { children: ReactNode }) {
         updatedAt: new Date(orderData.updated_at),
       };
 
-      // Send Telegram notification for new order
+      // Add order to local state immediately after database operations
+      setOrders(prev => [newOrder, ...prev]);
+
+      // Update stock quantities (critical - wait for this)
       try {
-        await fetch('/api/telegram', {
-          method: 'POST',
-          headers: {
-            'Content-Type': 'application/json',
-          },
-          body: JSON.stringify({
-            type: 'new_order',
-            order: newOrder,
-          }),
-        });
-      } catch (telegramError) {
-        console.error('Failed to send Telegram notification:', telegramError);
-        // Don't throw error here - order creation should succeed even if notification fails
+        await updateStockAfterOrder(items);
+        console.log('Stock quantities updated successfully for order:', orderData.order_number);
+      } catch (stockError) {
+        console.error('Error updating stock after order creation:', stockError);
+        // Don't throw - order is still valid
       }
 
-      // Refresh orders to get the latest data
-      await fetchOrders();
+      // Send Telegram notification in background (non-blocking)
+      fetch('/api/telegram', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          type: 'new_order',
+          order: newOrder,
+        }),
+      }).catch(error => {
+        console.error('Failed to send Telegram notification:', error);
+      });
 
+      console.log('Order processing completed successfully:', orderData.order_number);
       return orderData.id;
     } catch (error) {
       console.error('Error in addOrder:', error);

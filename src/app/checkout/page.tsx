@@ -139,7 +139,9 @@ export default function CheckoutPage() {
                   <Link href="/cart">
                     <Button variant="outline" size="lg">Back to Cart</Button>
                   </Link>
-                  <Button type="submit" size="lg">Place Order</Button>
+                  <Button type="submit" size="lg" disabled={isSubmitting}>
+                    {isSubmitting ? 'Processing Order...' : 'Place Order'}
+                  </Button>
                 </div>
               </form>
             </CardContent>
