@@ -22,13 +22,13 @@ export default function ProductPage() {
   const [stockData, setStockData] = useState<Record<string, StockInfo>>({});
   const [stockLoading, setStockLoading] = useState(true);
   const [stockMessage, setStockMessage] = useState('In Stock. Ready to Ship.');
-  const [selectedMainImage, setSelectedMainImage] = useState(product.image);
+  const [selectedMainImage, setSelectedMainImage] = useState(product.image); // Start with white background image
 
-  // Additional product images for gallery
+  // Additional product images for gallery (only beach photos)
   const additionalImages = [
+    '/pc3.jpg',
     '/pc1.jpg',
     '/pc2.jpg',
-    '/pc3.jpg',
     '/pc4.jpg'
   ];
 
@@ -135,28 +135,8 @@ export default function ProductPage() {
             />
           </div>
           <div className="mt-4 grid grid-cols-4 gap-2">
-            {/* Original product image thumbnail */}
-            <button
-              onClick={() => setSelectedMainImage(product.image)}
-              className={`border-2 rounded-md overflow-hidden transition-colors ${
-                selectedMainImage === product.image
-                  ? 'border-primary'
-                  : 'border-gray-200 hover:border-gray-300'
-              }`}
-            >
-              <div className="aspect-square relative">
-                <Image
-                  src={product.image}
-                  alt={product.name}
-                  fill
-                  className="object-cover p-2"
-                  sizes="(max-width: 768px) 25vw, 12vw"
-                />
-              </div>
-            </button>
-
             {/* Additional images */}
-            {additionalImages.slice(0, 3).map((image, index) => (
+            {additionalImages.slice(0, 4).map((image, index) => (
               <button
                 key={index}
                 onClick={() => setSelectedMainImage(image)}
@@ -178,33 +158,6 @@ export default function ProductPage() {
               </button>
             ))}
           </div>
-
-          {/* Additional images row if more than 3 */}
-          {additionalImages.length > 3 && (
-            <div className="mt-2 grid grid-cols-4 gap-2">
-              {additionalImages.slice(3).map((image, index) => (
-                <button
-                  key={index + 3}
-                  onClick={() => setSelectedMainImage(image)}
-                  className={`border-2 rounded-md overflow-hidden transition-colors ${
-                    selectedMainImage === image
-                      ? 'border-primary'
-                      : 'border-gray-200 hover:border-gray-300'
-                  }`}
-                >
-                  <div className="aspect-square relative">
-                    <Image
-                      src={image}
-                      alt={`${product.name} - Additional Image ${index + 4}`}
-                      fill
-                      className="object-cover p-2"
-                      sizes="(max-width: 768px) 25vw, 12vw"
-                    />
-                  </div>
-                </button>
-              ))}
-            </div>
-          )}
         </div>
 
         {/* Product Info */}
