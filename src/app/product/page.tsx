@@ -172,7 +172,6 @@ export default function ProductPage() {
                 </svg>
               ))}
             </div>
-            <span className="ml-2 text-sm text-gray-600">(128 reviews)</span>
           </div>
           
           <div className="mt-4 space-y-1">

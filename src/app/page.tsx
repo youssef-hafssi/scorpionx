@@ -53,7 +53,6 @@ export default function Home() {
                   </svg>
                 ))}
               </div>
-              <span className="text-gray-200">Based on 128 reviews</span>
             </div>
 
 
