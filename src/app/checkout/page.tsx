@@ -172,7 +172,7 @@ export default function CheckoutPage() {
 
                 {totalQuantity > 1 && (
                   <div className="bg-green-50 p-2 rounded text-xs text-green-700">
-                    💰 Bulk pricing applied! You're saving money with this quantity.
+                    💰 Bulk pricing applied! You&apos;re saving money with this quantity.
                   </div>
                 )}
 

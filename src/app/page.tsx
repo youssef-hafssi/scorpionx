@@ -1,7 +1,7 @@
 import Image from "next/image";
 import Link from "next/link";
 import { Button } from "@/components/ui/button";
-import { product, productFeatures } from "@/lib/product-data";
+
 
 export default function Home() {
   return (
@@ -67,7 +67,7 @@ export default function Home() {
         <div className="container mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center mb-12">
             <h2 className="text-3xl font-bold">What Our Customers Say</h2>
-            <p className="mt-4 text-xl text-gray-600">Don't just take our word for it</p>
+            <p className="mt-4 text-xl text-gray-600">Don&apos;t just take our word for it</p>
           </div>
           
           <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
@@ -79,7 +79,7 @@ export default function Home() {
                   </svg>
                 ))}
               </div>
-              <p className="text-gray-600 mb-4">"sarha 5oya la qualité vrai zwina bezaf ou hta taman monasib Merci bezaf 3la hosen ta3amol ou Lahe yewefe9k"</p>
+              <p className="text-gray-600 mb-4">&quot;sarha 5oya la qualité vrai zwina bezaf ou hta taman monasib Merci bezaf 3la hosen ta3amol ou Lahe yewefe9k&quot;</p>
               <div className="flex items-center">
                 <div className="w-10 h-10 bg-gray-200 rounded-full flex items-center justify-center mr-3">
                   <span className="text-gray-600 font-semibold">A*</span>
@@ -99,7 +99,7 @@ export default function Home() {
                   </svg>
                 ))}
               </div>
-              <p className="text-gray-600 mb-4">"Commande bien reçu qualité top dial top la taille hya hadik Scorpionx l2assl wl ba9i ta9lid"</p>
+              <p className="text-gray-600 mb-4">&quot;Commande bien reçu qualité top dial top la taille hya hadik Scorpionx l2assl wl ba9i ta9lid&quot;</p>
               <div className="flex items-center">
                 <div className="w-10 h-10 bg-gray-200 rounded-full flex items-center justify-center mr-3">
                   <span className="text-gray-600 font-semibold">M*</span>

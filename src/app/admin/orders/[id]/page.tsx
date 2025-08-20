@@ -17,7 +17,6 @@ import StockImpactIndicator from '@/components/stock-impact-indicator';
 
 export default function OrderDetailsPage() {
   const params = useParams();
-  const router = useRouter();
   const { getOrder, updateOrderStatus } = useOrders();
   const orderId = params.id as string;
   const order = getOrder(orderId);
@@ -36,7 +35,7 @@ export default function OrderDetailsPage() {
         <Card>
           <CardContent className="p-8 text-center">
             <h2 className="text-xl font-semibold mb-2">Order Not Found</h2>
-            <p className="text-gray-600 mb-4">The order you're looking for doesn't exist.</p>
+            <p className="text-gray-600 mb-4">The order you&apos;re looking for doesn&apos;t exist.</p>
             <Link href="/admin/orders">
               <Button>Return to Orders</Button>
             </Link>

@@ -37,7 +37,7 @@ export default function OrderConfirmationPage() {
         <Card>
           <CardContent className="p-8 text-center">
             <h1 className="text-2xl font-bold mb-4">Order Not Found</h1>
-            <p className="text-gray-600 mb-6">We couldn't find your order. Please check your order number.</p>
+            <p className="text-gray-600 mb-6">We couldn&apos;t find your order. Please check your order number.</p>
             <Link href="/">
               <Button>Back to Home</Button>
             </Link>

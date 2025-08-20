@@ -39,7 +39,7 @@ export default function CartPage() {
     return (
       <div className="container mx-auto px-4 py-16 text-center">
         <h1 className="text-3xl font-bold mb-6">Your Cart is Empty</h1>
-        <p className="text-gray-600 mb-8">Looks like you haven't added anything to your cart yet.</p>
+        <p className="text-gray-600 mb-8">Looks like you haven&apos;t added anything to your cart yet.</p>
         <Link href="/product">
           <Button size="lg">Continue Shopping</Button>
         </Link>
@@ -145,7 +145,7 @@ export default function CartPage() {
 
                 {totalQuantity > 1 && (
                   <div className="bg-green-50 p-2 rounded text-xs text-green-700">
-                    💰 Bulk pricing applied! You're saving money with this quantity.
+                    💰 Bulk pricing applied! You&apos;re saving money with this quantity.
                   </div>
                 )}
 
